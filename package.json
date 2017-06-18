@@ -27,6 +27,7 @@
     "express-session": "^1.15.3",
     "helmet": "^2.2.0",
     "install": "^0.10.1",
+    "jsonwebtoken": "^7.4.1",
     "mongoose": "^4.6.1",
     "morgan": "^1.7.0",
     "npm": "^5.0.3",
