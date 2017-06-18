@@ -18,16 +18,21 @@ module.exports = function(apiRoutes, passport) {
 
     // process the signup form
     apiRoutes.get('/failure-redirect', function(req, res, next){
-        res.send({
-            logIn:"fail"
-        })
+        res.statusMessage = "Log In Failed";
+        res.status(400).end();
+        // res.status(401)
+        // res.send({
+        //     logIn:"fail"
+        // })
     });
 
     // process the login form
     apiRoutes.get('/profile', function(req, res, next){
-        res.send({
-            logIn:"success"
-        })
+        res.statusMessage = "Log In Successfull";
+        res.status(200).end();
+        // res.send({
+        //     logIn:"success"
+        // })
     });
 
     // process the signup form
