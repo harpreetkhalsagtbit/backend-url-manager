@@ -17,7 +17,9 @@ module.exports = function(apiRoutes, passport) {
     //     failureFlash : true // allow flash messages
     // }));
 
-    apiRoutes.post('/login', passport.authenticate('local-login', { failureRedirect: '/api/failure-redirect/login' }),
+    apiRoutes.post('/login', passport.authenticate('local-login', {
+        failureRedirect: '/api/failure-redirect'
+    }),
     function(req, res) {
         var string = encodeURIComponent(JSON.stringify(req.user));
         // res.redirect('/?valid=' + string);
