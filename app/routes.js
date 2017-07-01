@@ -23,6 +23,7 @@ module.exports = function(app, passport) {
     // we need to pass 'apiRoutes' before loading module(s)
     require('./routes/user')(apiRoutes, passport); // load our routes and pass in our app and fully configured passport
     require('./routes/beers')(apiRoutes); // load our routes and pass in our app
+    require('./routes/urls')(apiRoutes); // load our routes and pass in our app
     // app.use('/beers', beers(app));
 
     // for dev purposes only
