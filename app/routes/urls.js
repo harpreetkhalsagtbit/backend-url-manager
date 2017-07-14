@@ -49,11 +49,15 @@ module.exports = function(apiRoutes) {
         console.log("token....", req.decoded)
 		// decode token
 
+		var loggedInUserDetails = req.decoded;
 		// Use the url model to find all url
-		URL.find(function(err, urls) {
+		URL.find({
+			"userId":loggedInUserDetails._id
+		}, function(err, urls) {
 			if (err)
 				res.send(err);
 
+			console.log("urls", urls)
 			res.json(urls);
 		});
 	});
@@ -62,11 +66,13 @@ module.exports = function(apiRoutes) {
 	apiRoutes.post('/urlScrapper', function(req, res) {
 		// Set the url properties that came from the POST data
 		// console.log("here", "req.body.url", req.body.url)
+		var loggedInUserDetails = req.decoded;
 		metascrapper
 			.scrapeUrl(req.body.url)
 			.then((metadata) => {
 				console.log(metadata)
 				var url = new URL({
+					"userId":loggedInUserDetails._id,
 					"name": req.body.url,
 					"metadata": metadata
 				});
@@ -83,19 +89,21 @@ module.exports = function(apiRoutes) {
 
 	// Create endpoint /api/urlScrapper for PUTS
 	apiRoutes.put('/urlScrapper', function(req, res) {
-		// Set the url properties that came from the POST data
-		console.log("put here", "req.body.url", req.body)
+
+		var loggedInUserDetails = req.decoded;
 		metascrapper
 			.scrapeUrl(req.body.url)
 			.then((metadata) => {
 				console.log(metadata)
 				var url = new URL({
+					"userId":loggedInUserDetails._id,
 					"name": req.body.url,
 					"metadata": metadata
 				});
 
 				// Save the url and check for errors
 				URL.update({
+					"userId":loggedInUserDetails._id,
 					_id: req.body.id
 				},{
 					"$set": {
@@ -122,7 +130,9 @@ module.exports = function(apiRoutes) {
 	apiRoutes.delete('/urlScrapper/:id', function(req, res) {
 		// Set the url properties that came from the POST data
 		console.log("here", "req.body.url", req.params)
+		var loggedInUserDetails = req.decoded;
 		URL.remove({
+			"userId":loggedInUserDetails._id,
 			_id: req.params.id
 		}, function(err) {
 			if (err)
