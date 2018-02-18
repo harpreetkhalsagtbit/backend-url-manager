@@ -91,38 +91,43 @@ module.exports = function(apiRoutes) {
 	apiRoutes.put('/urlScrapper', function(req, res) {
 
 		var loggedInUserDetails = req.decoded;
+		console.log(req.body);
+		// Save the url and check for errors
+		// URL.update({
+		// 	"userId":loggedInUserDetails._id,
+		// 	_id: req.body.id
+		// },{
+		// 	"$set": {
+		// 		metadata: metadata
+		// 	}
+		// }, function(err, data) {
+		// 	if (err)
+		// 		res.send(err);
+
+		// 	URL.findOne({
+		// 		_id: req.body.id
+		// 	}, function(err, url) {
+		// 		if (err)
+		// 			res.send(err);
+
+		// 		res.json(url);
+		// 	});
+
+		// });
+	});
+
+	// Create endpoint /api/urlScrapper for PUTS
+	apiRoutes.put('/urlScrapperPreview', function(req, res) {
+
+		var loggedInUserDetails = req.decoded;
 		metascrapper
 			.scrapeUrl(req.body.url)
 			.then((metadata) => {
 				console.log(metadata)
-				var url = new URL({
-					"userId":loggedInUserDetails._id,
+				res.json({
 					"name": req.body.url,
 					"metadata": metadata
-				});
-
-				// Save the url and check for errors
-				URL.update({
-					"userId":loggedInUserDetails._id,
-					_id: req.body.id
-				},{
-					"$set": {
-						metadata: metadata
-					}
-				}, function(err, data) {
-					if (err)
-						res.send(err);
-
-					URL.findOne({
-						_id: req.body.id
-					}, function(err, url) {
-						if (err)
-							res.send(err);
-
-						res.json(url);
-					});
-
-				});
+				})
 			})
 	});
 
