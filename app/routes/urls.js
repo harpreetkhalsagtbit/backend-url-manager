@@ -71,6 +71,9 @@ module.exports = function(apiRoutes) {
 			.scrapeUrl(req.body.url)
 			.then((metadata) => {
 				console.log(metadata)
+
+				// fix: if url is null in metada
+				metadata.url = metadata.url || req.body.url
 				var url = new URL({
 					"userId":loggedInUserDetails._id,
 					"name": req.body.url,
@@ -125,6 +128,9 @@ module.exports = function(apiRoutes) {
 			.scrapeUrl(req.body.url)
 			.then((metadata) => {
 				console.log(metadata)
+
+				// fix: if url is null in metada
+				metadata.url = metadata.url || req.body.url
 				res.json({
 					"name": req.body.url,
 					"metadata": metadata
